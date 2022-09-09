@@ -1,0 +1,118 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.koverse</groupId>
+    <artifactId>titanic-security-parser</artifactId>
+    <packaging>jar</packaging>
+    <version>0.0.1</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven-shade-plugin-version>2.4.1</maven-shade-plugin-version>
+        <koverse.version>3.9.0</koverse.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <spark.version>2.3.2</spark.version>
+        <scala.tools.version>2.11.4</scala.tools.version>
+        <scala.version>2.11</scala.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <!-- This maven-shade-plugin builds the artifact, which is an "uber jar"
+                containing the classes from this project, and the contents of all non-provided
+                dependencies. The output of this is the Addon JAR which is uploaded to Koverse. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>${maven-shade-plugin-version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <filters>
+                                <!-- do not include hashing info from dependencies, because it causes
+                                    this jar to appear corrupt -->
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>com.google.cloud.bigdataoss:gcs-connector</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/services/org.apache.hadoop.fs.FileSystem</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <artifactSet>
+                                <excludes>
+                                    <exclude>com.google.code.findbugs:jsr305</exclude>
+                                </excludes>
+                            </artifactSet>
+                            <!-- Additional configuration. -->
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.google</pattern>
+                                    <shadedPattern>repackaged.koverse.com.google</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+
+        <!-- koverse-sdk is provided by koverse at runtime -->
+        <dependency>
+            <groupId>com.koverse</groupId>
+            <artifactId>koverse-sdk</artifactId>
+            <version>${koverse.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.8</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <!-- Add the public Koverse repository for the koverse-sdk dependency -->
+    <repositories>
+        <repository>
+            <id>koverse</id>
+            <name>Koverse Public Repo</name>
+            <url>http://nexus.koverse.com/nexus/content/groups/public/</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>koverse</id>
+            <url>http://nexus.koverse.com/nexus/content/groups/public/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>

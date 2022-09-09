@@ -1,0 +1,23 @@
+id: flatten_and_seperate_json
+name: 'Flatten and Seperate json DataFrames'
+description: 'Flatten and seperate JSON dataframes'
+parameters:
+  -
+      defaultValue: "msgType"
+      displayName: 'Catagory'
+      parameterName: 'catagory_field'
+      required: true
+      type: 'string'
+  -
+      defaultValue: "onetype"
+      displayName: 'DF Type'
+      parameterName: 'df_type'
+      required: true
+      type: 'string'
+  -
+      displayName: 'Input files Dataset(s)'
+      parameterName: 'inputDataset'
+      required: true
+      type: 'inputCollection'
+version: '1.0.0'
+supportsIncrementalProcessing: true
