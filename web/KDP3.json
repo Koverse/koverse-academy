@@ -1,0 +1,142 @@
+{
+	"info": {
+		"_postman_id": "dc004b05-d1e7-430b-8978-237672b4b173",
+		"name": "KDP3 - Variables",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9218819"
+	},
+	"item": [
+		{
+			"name": "Read - Object",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"collectionIds\": \"{{KDP3_DATASET_ID}}\", \n   \"query\": {\n       \"field1\": \"field1_value\"\n   },\n   \"fieldsToReturn\": [\n       \"field2\"\n   ],\n   \"limit\": 100\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{KDP3_API_URL}}/api/v1/queries/object/?apiToken={{KDP3_API_TOKEN}}",
+					"protocol": "http",
+					"host": [
+						"{{KDP3_API_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"queries",
+						"object",
+						""
+					],
+					"query": [
+						{
+							"key": "apiToken",
+							"value": "{{KDP3_API_TOKEN}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read - Lucene",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://egypt.koverse.com:7080/api/v1/queries/object/?apiToken=662aa99f-1009-4a38-8255-e5747f6b82ac",
+					"protocol": "http",
+					"host": [
+						"egypt",
+						"koverse",
+						"com"
+					],
+					"port": "7080",
+					"path": [
+						"api",
+						"v1",
+						"queries",
+						"object",
+						""
+					],
+					"query": [
+						{
+							"key": "apiToken",
+							"value": "662aa99f-1009-4a38-8255-e5747f6b82ac"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Write",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"collectionId\": \"{{KDP3_DATASET_ID}}\",\n    \"securityLabel\": \"\",\n    \"fields\": {\n        \"column1\": \"row1_value1\",\n        \"column2\": \"row1_value2\",\n        \"column3\": \"row1_value3\",\n        \"column4\": 20\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{KDP3_API_URL}}/api/v1/records?apiToken={{KDP3_API_TOKEN}}",
+					"protocol": "http",
+					"host": [
+						"{{KDP3_API_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"records"
+					],
+					"query": [
+						{
+							"key": "apiToken",
+							"value": "{{KDP3_API_TOKEN}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transforms List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{KDP3_API_URL}}/api/v1/transforms?inputDataSetId={{INPUT_KDP3_DATASET}}",
+					"protocol": "http",
+					"host": [
+						"{{KDP3_API_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"transforms"
+					],
+					"query": [
+						{
+							"key": "inputDataSetId",
+							"value": "{{INPUT_KDP3_DATASET}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
