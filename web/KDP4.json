@@ -1,0 +1,83 @@
+{
+	"info": {
+		"_postman_id": "ade47196-0f48-49be-a2ed-01f89efa20e4",
+		"name": "KDP4 - Variables",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9218819"
+	},
+	"item": [
+		{
+			"name": "Read",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{KDP4_BEARER_JWT_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"datasetId\": \"{{KDP4_DATASET_ID}}\",\n    \"expression\": \"SELECT * FROM \\\"{{KDP4_DATASET_ID}}\\\"\" ,\n    \"limit\": 200,\n    \"offset\": 0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{KDP4_API_URL}}/query",
+					"protocol": "https",
+					"host": [
+						"{{KDP4_API_URL}}"
+					],
+					"path": [
+						"query"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Write",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"column1\": \"row3_value1\",\n        \"column2\": \"row3_value2\",\n        \"column3\": \"row3_value3\",\n        \"column4\": 20\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{KDP4_API_URL}}/write/407246e0-0e97-46d2-8ea1-28d8e96cd520",
+					"protocol": "https",
+					"host": [
+						"{{KDP4_API_URL}}"
+					],
+					"path": [
+						"write",
+						"407246e0-0e97-46d2-8ea1-28d8e96cd520"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
