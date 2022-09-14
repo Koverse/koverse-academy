@@ -1,0 +1,12 @@
+id: titanic_ticket_prefix
+name: 'Titanic Ticket Transform'
+description: 'Separate the titanic Ticket column into ticketPrefix and Ticket columns'
+parameters:
+  -
+      defaultValue: "msgType"
+      displayName: 'Ticket Column'
+      parameterName: 'ticket_col'
+      required: true
+      type: 'string'
+version: '1.0.0'
+supportsIncrementalProcessing: true

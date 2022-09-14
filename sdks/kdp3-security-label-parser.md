@@ -21,12 +21,12 @@ public class TitanicLabelParser implements SecurityLabelParser {
 We'll begin by defining a parameter to map labels from the incoming data to internal ones used by Accumulo. 
 
 ```java
+  private static final Map<String, String> PASSENGER_MAP = new HashMap<>();
+
   static {
-    CUI_MAP.put("PHYS", "PHYS");
-    CUI_MAP.put("FSEC", "FSEC");
-    CUI_MAP.put("REL TO USA", "US");
-    CUI_MAP.put("REL TO NORAMER", "(US|CAN|MEX)");
-    // TODO: fill this out with all labels
+    PASSENGER_MAP.put("1", "SECRET");
+    PASSENGER_MAP.put("2", "FOUO");
+    PASSENGER_MAP.put("3", "U");
   }
 
   @Override
@@ -47,7 +47,6 @@ We'll begin by defining a parameter to map labels from the incoming data to inte
   @Override
   public String getVersion() {
     return "0.1.0";
-  }
   ```
 
 Next, we'll parse the incoming column from the dataset, pass the resulting string to the map we defined earlier, and apply the map to the external labels, parsing the output to an Accumulo security label expression.
@@ -56,25 +55,9 @@ Next, we'll parse the incoming column from the dataset, pass the resulting strin
   @Override
   public String toExpression(String s) throws SecurityLabelParserException {
 
-    // this parses simple CUI expressions in a limited way
-    // we expect to get paragraphs from the PortionHandler here
-
-    // get the first line
-    String line = s.split("\n")[0];
-
-    List<String> parts = Arrays.asList(line.split("/"));
-
-    // check for CUI here or some other top-level system to choose how to parse the rest
-    if (parts.get(0).equals("CUI")) {
-
-      Stream<String> tokens = parts.subList(2, parts.size()).stream().map(p -> CUI_MAP.get(p));
-
-      // we'll simply AND these for now. Future implementations can implement ORs when split according to CUI
-      // TODO: implement parsing for ORs
-      return tokens.collect(Collectors.joining("&"));
-    }
-
-    return "";
+    return PASSENGER_MAP.get(s);
   }
 }
 ```
+
+Build the package with a `mvn package` upload the target jar file to the addons page.

@@ -21,7 +21,7 @@ import java.util.Map;
 public class CsvFormat extends ExportFileFormat {
 ```
 
-Next, we define the parameters that we'll use with user-defined parameters that will define our export schema.
+Next, we define the variables that we'll use with user-defined parameters that will define our export schema.
 
 ```java
   public static final String CSV_FIELD_NAMES = "koverse_exportfileformat_csv_fieldnames";
@@ -82,4 +82,92 @@ Next, we define the parameters that we'll use with user-defined parameters that 
     return params;
   }
   ```
-  
+
+We override the writeREcordToFormat class to read the records from the dataset and write them to a String array.
+
+```java
+  @Override
+  protected void writeRecordToFormat(final SimpleRecord record) throws IOException {
+
+    // assume record is flat yo
+    // export transforms should be used to flatten any nested values
+    String[] fields = new String[fieldNames.length];
+    int i = 0;
+    for (String fieldName : fieldNames) {
+      if (record.containsKey(fieldName)) {
+        // should make sure this writes a representation that will
+        // end up being read as the right object type if ingested again
+        fields[i] = record.get(fieldName).toString();
+      } else {
+        fields[i] = "";
+      }
+      i++;
+    }
+
+    writer.writeNext(fields);
+  }
+  ```
+
+We define the file that we export to here.
+
+```java
+  @Override
+  protected void startFile() throws IOException {
+
+    Map<String, String> values = getContext().getParameterValues();
+    separatorCharacter =
+        StringEscapeUtils.unescapeJava(values.get(SEPARATOR_CHARACTER).toString()).charAt(0);
+    quoteCharacter =
+        StringEscapeUtils.unescapeJava(values.get(QUOTE_CHARACTER).toString()).charAt(0);
+    escapeCharacter =
+        StringEscapeUtils.unescapeJava(values.get(ESCAPE_CHARACTER).toString()).charAt(0);
+    fieldNames = StringEscapeUtils.unescapeJava(values.get(CSV_FIELD_NAMES).toString()).split(",");
+
+    writer =
+        new CSVWriter(new OutputStreamWriter(getOutputStream()), separatorCharacter,
+            quoteCharacter, escapeCharacter);
+    if (values.get(WRITE_HEADERS_TO_FILE).toString().equals("true")) {
+      writer.writeNext(fieldNames);
+    }
+  }
+```
+
+We define how to terminate the variables or running processes associated with the file writer here.
+
+```java
+  @Override
+  protected void endFile() throws IOException {
+    writer.flush();
+  }
+```
+
+Here, we can define some metadata about the addon.
+
+```java
+  @Override
+  public String getName() {
+    return "CSV File Format (Comma separated values)";
+  }
+
+  @Override
+  public String getTypeId() {
+    return "koverse_exportfileformat_csv";
+  }
+
+  @Override
+  public String getVersion() {
+    return "1.0";
+  }
+
+  @Override
+  public String getDescription() {
+    return "Export records to a comma-separated values file.";
+  }
+
+  @Override
+  public String getExtension() {
+    return "csv";
+  }
+}
+```
+

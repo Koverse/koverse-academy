@@ -81,14 +81,6 @@ Since we are using the AbstractFileBasedSource, we can define the getFileBasedFl
 
 ```java
   @Override
-  public void configureFileBasedSource() throws IOException {
-
-    urls =
-        FluentIterable.from(Splitter.on(',').trimResults().omitEmptyStrings()
-            .split(getContext().getParameterValues().get(URLS_PARAMETER)));
-  }
-
-  @Override
   public List<Parameter> getParameters() {
     return Collections.emptyList();
   }
