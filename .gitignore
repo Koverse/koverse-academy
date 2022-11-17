@@ -1,6 +1,12 @@
-/react-app-skeleton/client/node_modules
-/react-app-skeleton/server/node_modules
-/react-app-skeleton/client/.DS_Store
-/react-app-skeleton/server/.DS_Store
-/react-app-skeleton/.DS_Store
+/react-app-skeleton-working/client/node_modules
+/react-app-skeleton-working/server/node_modules
+/react-app-skeleton-working/client/.DS_Store
+/react-app-skeleton-working/server/.DS_Store
+/react-app-skeleton-working/.DS_Store
+
+/react-app-skeleton-training/client/node_modules
+/react-app-skeleton-training/server/node_modules
+/react-app-skeleton-training/client/.DS_Store
+/react-app-skeleton-training/server/.DS_Store
+/react-app-skeleton-training/.DS_Store
 .DS_Store
