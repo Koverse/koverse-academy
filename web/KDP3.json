@@ -52,12 +52,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://egypt.koverse.com:7080/api/v1/queries/object/?apiToken=662aa99f-1009-4a38-8255-e5747f6b82ac",
+					"raw": "http://{{KDP3_API_URL}}:7080/api/v1/queries/object/?apiToken={{KDP3_API_TOKEN}}",
 					"protocol": "http",
 					"host": [
-						"egypt",
-						"koverse",
-						"com"
+						"{{KDP3_API_URL}}"
 					],
 					"port": "7080",
 					"path": [
@@ -70,7 +68,7 @@
 					"query": [
 						{
 							"key": "apiToken",
-							"value": "662aa99f-1009-4a38-8255-e5747f6b82ac"
+							"value": "{{KDP3_API_TOKEN}}"
 						}
 					]
 				}
