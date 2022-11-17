@@ -1,0 +1,6 @@
+/react-app-skeleton/client/node_modules
+/react-app-skeleton/server/node_modules
+/react-app-skeleton/client/.DS_Store
+/react-app-skeleton/server/.DS_Store
+/react-app-skeleton/.DS_Store
+.DS_Store
