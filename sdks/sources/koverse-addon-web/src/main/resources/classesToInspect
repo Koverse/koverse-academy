@@ -1,0 +1,6 @@
+com.koverse.addon.web.source.NewsfeedSource
+com.koverse.addon.web.source.UrlSource
+com.koverse.addon.web.source.WikipediaDumpSource
+com.koverse.addon.web.source.WikipediaPagesSource
+com.koverse.addon.web.files.HtmlRecords
+com.koverse.addon.web.files.WikipediaRecords

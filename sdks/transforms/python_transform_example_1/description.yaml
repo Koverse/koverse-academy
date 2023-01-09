@@ -1,0 +1,19 @@
+id: null_value_replace
+name: 'Null value replace'
+description: 'Replace null values in dataset for a specified field'
+parameters:
+  -
+    displayName: 'Input Dataset'
+    parameterName: 'inputDataset'
+    type: 'inputCollection'
+  -
+    displayName: 'replacement Value'
+    parameterName: 'replacementValue'
+    type: 'string'
+  -
+    displayName: 'replacement Column'
+    parameterName: 'replacementColumn'
+    type: 'string'
+
+version: '1.0.0'
+supportsIncrementalProcessing: true
