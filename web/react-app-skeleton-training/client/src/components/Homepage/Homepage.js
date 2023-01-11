@@ -7,25 +7,27 @@ const Homepage = () => {
 
     const [userDisplayName, setUserDisplayName] = useState('');
     const [userEmail, setUserEmail] = useState('');
+
+    // Data read from KDP4 stored here
     const [data, setData] = useState([]);
     const navigate = useNavigate();
 
     const logout = () => {
-        console.log("Remove token and log out");
-        localStorage.removeItem('token');
+        // TRAINING: KDP4 Authentication 
+        // Remove token and user from local storage so user is no longer recognized as logged in
         localStorage.removeItem('user');
-        //call logout endpoint
-        const loggedInState = axios.get("/logout");
+
+        //call logout endpoint to update backend login status
+        axios.get("/logout");
         navigate("/");
         window.location.reload();
     }
 
+    // TRAINING: KDP4 Read Records from Datasets
+    // Read data from KDP4 using the /getData query set in the server backend
     const getData = () => {
-        console.log("calling /query endpoint");
         axios.get('/getData')
         .then(response => {
-            // store response token in local storage
-            console.log(response.data);
             setData(response.data.records)
         })
         .catch(err => {
@@ -35,19 +37,16 @@ const Homepage = () => {
         
     }
     useEffect(() => {
-        // gets jwt and credentials
+        // sets jwt as a cookie and returns user credentials
         axios.get("/getCredentials") 
         .then(response => {
-            console.log("received credentials: ");
-            // store response token in local storage
-            console.log(response);
+            // RECEIVED CREDENTIALS
             localStorage.setItem("user", JSON.stringify(response.data))
             setUserDisplayName(response.data.displayName);        
             setUserEmail(response.data.email); 
         })
         .catch(err => {
-            console.log("Unable to get user credentials")
-            console.log(err)
+            // UNABLE TO GET USER CREDENTIALS
             logout();
             navigate("/");
             window.location.reload();

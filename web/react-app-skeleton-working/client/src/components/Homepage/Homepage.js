@@ -12,7 +12,6 @@ const Homepage = () => {
 
     const logout = () => {
         console.log("Remove token and log out");
-        localStorage.removeItem('token');
         localStorage.removeItem('user');
         //call logout endpoint
         const loggedInState = axios.get("/logout");
