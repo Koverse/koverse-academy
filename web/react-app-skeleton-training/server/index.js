@@ -31,15 +31,17 @@ const createApplication = (cb) => {
   });
 };
 
-
 createApplication(({ app, callbackUrl }) => {
 
+  // TRAINING: Sets up Oauth2 Authentication Settings for authentication through KDP4 to work
   const client = new AuthorizationCode({
     client: {
+      // TRAINING TODO: Replace id and secret with values received after creating KDP4 application
       id: '66e63d65b6d0e150e6d02776e734188b0767fec5591005332b9e4a920b8371b7',
       secret: '40e116dcf9a8fa0fa9b6719d9d313293939b7515cfab70287819ae3efd9607ec'
     },
     auth: {
+      // TRAINING TODO: Replace tokenHost and authorizeHost with the base url of the KDP4 workspace you are using
       tokenHost: 'https://api.staging.koverse.com',
       tokenPath: '/oauth2/token',
 	    authorizeHost: 'https://api.staging.koverse.com',
@@ -59,12 +61,8 @@ createApplication(({ app, callbackUrl }) => {
 		console.log('CODE', code)
     try {
       const accessToken = await client.getToken(options);
-
-      console.log('The resulting token: ', accessToken);
-      console.log('The resulting token.token: ', accessToken.token);
       loggedInState = true;
 
-      // REFACTOR: set access token inside session cookies -> delete after storing jwt
       res.cookie('accessToken', accessToken.token.access_token, { httpOnly: true });
 
       return res.status(200).json(accessToken).send();
@@ -75,7 +73,7 @@ createApplication(({ app, callbackUrl }) => {
     }
   });
 
-  // get credentials
+  // gets user credentials
   app.get('/getCredentials', async (req, res, next) => {
     console.log("Reading accessToken cookie in /getCred: " + req.cookies.accessToken)
 
@@ -115,7 +113,7 @@ createApplication(({ app, callbackUrl }) => {
   })
 
   app.get("/getData", (req, res) => {
-
+    // TRAINING TODO: Replace fields below with values corresponding to your KDP4 workspace
     axios.post('https://api.staging.koverse.com/query', 
         {
                 "datasetId": "407246e0-0e97-46d2-8ea1-28d8e96cd520",
@@ -125,11 +123,12 @@ createApplication(({ app, callbackUrl }) => {
         }, 
         {
             headers: {
-              "Authorization": "Bearer " + req.cookies.accessToken
+              "Authorization": "Bearer " + req.cookies.jwt
             }
         }
         )
         .then(response => {
+          // Successfully read and received data from KDP4
             console.log(response.data);
             res.send(response.data)
         })
